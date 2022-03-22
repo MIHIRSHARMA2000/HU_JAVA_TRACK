@@ -11,8 +11,8 @@ public class AccessRecord {
         String password = "root";
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(jdbcURL, username, password); // connection setup
             //System.out.println("Connection Established Successfully");
             Statement st = connection.createStatement();
             int b = 0;
@@ -20,7 +20,7 @@ public class AccessRecord {
                 System.out.println("Select the action to perform:\n" + "1. Insert\n" + "2. Update\n" + "3. Read\n" + "4. Delete\n" + "5. Exit\n");
                 int input = sc.nextInt();
 
-                if (input == 1) {
+                if (input == 1) {  // inserting new record
                     System.out.println("Enter User ID: ");
                     int id = sc.nextInt();
                     System.out.println("Enter Name: ");
@@ -67,7 +67,7 @@ public class AccessRecord {
                     st.executeUpdate("insert into employees_details value('" + id + "','" + name + "','" + age + "','" + cname + "','" + desig + "','" + sal + "','" + addrs + "','" + pnum + "')");
                     System.out.println("Employee details added successfully!");
                     st.close();
-                } else if (input == 2) {
+                } else if (input == 2) {  // updation of records
                     String sql = "update employees_details set user_name=? where user_id=?";
                     PreparedStatement stmt = connection.prepareStatement(sql);
                     System.out.println("Enter new Username");
@@ -78,7 +78,7 @@ public class AccessRecord {
                     stmt.setInt(2,uid);
                     stmt.executeUpdate();
                     System.out.println("The user information is updated successfully");
-                } else if (input == 3) {
+                } else if (input == 3) {  // read the records
                     System.out.println("Enter ");
                     String sql = "SELECT * from employees_details";
                     Statement stmt = connection.createStatement();
@@ -96,7 +96,7 @@ public class AccessRecord {
                         System.out.println(id + ":" + name + "," + Age + "," + cname + "," + desig + "," + salary + "," + address + "," + pnum);
                         //stmt.close();
                     }
-                } else if (input == 4) {
+                } else if (input == 4) { // deleting the records
                     System.out.println("Enter UserID you want to delete: ");
                     int uid = sc.nextInt();
                     String sql = "DELETE from employees_details WHERE userId='"+uid+"'";

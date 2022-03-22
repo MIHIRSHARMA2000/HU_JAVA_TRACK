@@ -13,7 +13,7 @@ public class Login{
         String password = "root";
         int option = 0;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection(jdbcURL, username, password);
             System.out.println("Connection Established Successfully");
             Statement st = connection.createStatement();
@@ -23,15 +23,15 @@ public class Login{
                         "1. Login \n" +
                         "2. Registration\n");
                 option = sc.nextInt();
-                if (option == 1) {
+                if (option == 1) {           // Login input
                     System.out.println("--Welcome To Login Page--");
-                    System.out.println("Enter Username: ");
+                    System.out.println("Enter Username: ");                 // Username
                     String uname = sc.next();
-                    System.out.println("Enter Password: ");
+                    System.out.println("Enter Password: ");                  // Password Input
                     String pswd = sc.next();
                     if (uname != null && pswd != null) {
-                        String sql = "SELECT * from login WHERE username='" + uname + "' and password='"+pswd+"'";
-                        Statement stmt = connection.createStatement();
+                        String sql = "SELECT * from login WHERE username='" + uname + "' and password='"+pswd+"'"; // running queries
+                        Statement stmt = connection.createStatement();   //
                         ResultSet rset = stmt.executeQuery(sql);
 
                         rset.next();
@@ -39,11 +39,11 @@ public class Login{
                         pswd = rset.getString("password");
                         System.out.println("Login Successful");
                         AccessRecord em = new AccessRecord();
-                        em.employee_info();
+                        em.employee_info();  // calling function employee_info from class AccessRecord
                     }
 
 
-                } else if (option == 2) {
+                } else if (option == 2) {              // Registration
                     System.out.println("--Registration--");
                     System.out.println("Enter Username: ");
                     String runame = sc.next();
@@ -51,7 +51,7 @@ public class Login{
                     System.out.println("Enter Password: ");
                     String rpswd = sc.next();
                     Password pv = new Password();
-                    String validation = pv.isValid(rpswd);
+                    String validation = pv.isValid(rpswd);  // checking password is valid or not by calling isValid function from Password class
                     if (validation != "VALID") {
                         while(validation!="VALID") {
                             System.out.println(validation);
@@ -60,7 +60,7 @@ public class Login{
                             validation= pv.isValid(rpswd);
                         }
                     }
-                    System.out.println("Enter Password Again: ");
+                    System.out.println("Re -Enter Password Again: ");
                     String repswd = sc.next();
                     st.executeUpdate("insert into login value('" + runame + "','" + rpswd + "')");
                     System.out.println("Registration Successful");
@@ -75,8 +75,8 @@ public class Login{
                 System.out.println("Login Success");
             } else {
 
-                System.out.println("Already Registered");
-                System.out.println("Different User Name");
+                System.out.println("Already Registered");         // if user name already present displaying message user Already registered
+                System.out.println("Enter Different User Name");
             }
         }
 
